@@ -43,3 +43,6 @@ The environment will be VSCode with Java development kit installed.
 This [link](https://code.visualstudio.com/docs/languages/java) can be followed to install Java in VSCode.
 
 **3. Do the same thing for C. To get some practice with pointers, define a doubly linked list of heap-allocated strings. Write functions to insert, find, and delete items from it. Test them.**
+
+The files for this challenge is saved in ./challenges/1-3
+Run by `gcc main.c -o main` then `./main.exe` (for Windows) or `./main` (for Linux)
