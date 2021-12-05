@@ -111,5 +111,7 @@ int main() {
   strcpy(node4->data, "Node4");
   insertHead(list, node4);
   printDoublyLinkedList(list);
+  removeNode(list, node4);
+  printDoublyLinkedList(list);
   return 0;
 }
