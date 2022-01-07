@@ -170,5 +170,5 @@ It is also impossible to do something similar to the Visitor pattern due to how 
 **Define a visitor class for our syntax tree classes that takes an expression, converts it to RPN, and returns the resulting string.**
 
 By using the AstPrinter, we can easily convert the resulting string to RPN by modifying the functions so that the operator is printed at the end.
-One example is modifying the function `visitBinaryExpr()` where it calls `parenthesize(expr.operator.lexeme, expr.left, expr.right)` into `parenthesize(expr.left, expr.right, expr.operator.lexeme)`.
-We will do this for all functions where the operator appears within `parenthesize()`.
+By modifying the `parenthesize()` function to print the operator at the end instead of the beginning, we can convert the string to RPN.
+The example code is RPNPrinter.java
