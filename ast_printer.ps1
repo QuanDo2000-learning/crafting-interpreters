@@ -1,0 +1,2 @@
+javac -d ./build/java ./jlox/com/craftinginterpreters/lox/AstPrinter.java ./jlox/com/craftinginterpreters/lox/Expr.java ./jlox/com/craftinginterpreters/lox/Token.java ./jlox/com/craftinginterpreters/lox/TokenType.java
+java -cp ./build/java com.craftinginterpreters.lox.AstPrinter

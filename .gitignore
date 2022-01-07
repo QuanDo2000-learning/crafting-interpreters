@@ -1,1 +1,3 @@
 /build/
+*.hsproj
+dist-newstyle
