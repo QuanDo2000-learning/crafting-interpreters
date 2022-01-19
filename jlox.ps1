@@ -1,2 +1,2 @@
-javac -d ./build/java ./jlox/com/craftinginterpreters/lox/Lox.java ./jlox/com/craftinginterpreters/lox/Token.java ./jlox/com/craftinginterpreters/lox/TokenType.java ./jlox/com/craftinginterpreters/lox/Scanner.java
-java -cp ./build/java com.craftinginterpreters.lox.Lox
+javac -d ./build/java ./jlox/com/craftinginterpreters/lox/Lox.java ./jlox/com/craftinginterpreters/lox/Token.java ./jlox/com/craftinginterpreters/lox/TokenType.java ./jlox/com/craftinginterpreters/lox/Scanner.java ./jlox/com/craftinginterpreters/lox/Interpreter.java ./jlox/com/craftinginterpreters/lox/RuntimeError.java ./jlox/com/craftinginterpreters/lox/Expr.java ./jlox/com/craftinginterpreters/lox/Environment.java ./jlox/com/craftinginterpreters/lox/Stmt.java ./jlox/com/craftinginterpreters/lox/Parser.java
+java -cp ./build/java com.craftinginterpreters.lox.Lox temp.txt
