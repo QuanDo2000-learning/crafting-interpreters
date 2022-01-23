@@ -147,29 +147,29 @@ block          -> "{" declaration* "}" ;
 
 ## Challenges
 
-**1. The REPL no longer supports entering a single expression and automatically printing its result value. That’s a drag. Add support to the REPL to let users type in both statements and expressions. If they enter a statement, execute it. If they enter an expression, evaluate it and display the result value.**
+1. The REPL no longer supports entering a single expression and automatically printing its result value. That’s a drag. Add support to the REPL to let users type in both statements and expressions. If they enter a statement, execute it. If they enter an expression, evaluate it and display the result value.
 
-**2. Maybe you want Lox to be a little more explicit about variable initialization. Instead of implicitly initializing variables to `nil`, make it a runtime error to access a variable that has not been initialized or assigned to, as in:**
+2. Maybe you want Lox to be a little more explicit about variable initialization. Instead of implicitly initializing variables to `nil`, make it a runtime error to access a variable that has not been initialized or assigned to, as in:
 
-```lox
-// No initializers.
-var a;
-var b;
+   ```lox
+   // No initializers.
+   var a;
+   var b;
 
-a = "assigned";
-print a; // OK, was assigned first.
+   a = "assigned";
+   print a; // OK, was assigned first.
 
-print b; // Error!
-```
+   print b; // Error!
+   ```
 
-**3. What does the following program do?**
+3. What does the following program do?
 
-```lox
-var a = 1;
-{
-  var a = a + 2;
-  print a;
-}
-```
+   ```lox
+   var a = 1;
+   {
+     var a = a + 2;
+     print a;
+   }
+   ```
 
-**What did you _expect_ it to do? Is it what you think it should do? What does analogous code in other languages you are familiar with do? What do you think users will expect this to do?**
+   What did you _expect_ it to do? Is it what you think it should do? What does analogous code in other languages you are familiar with do? What do you think users will expect this to do?

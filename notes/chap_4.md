@@ -75,23 +75,24 @@ The term **reserved word** refers to an identifier that has been claimed by the 
 
 ## Challenges
 
-**1. The lexical grammars of Python and Haskell are not _regular_. What does that mean, and why aren't they?**
+1. The lexical grammars of Python and Haskell are not _regular_. What does that mean, and why aren't they?
 
-One reason why Python lexical grammar is not _regular_ is because it uses indentation as tokens and that can't be done using regular grammar.
-The lexical grammar not _regular_ means that some tokens can't be recognized just by grammar rules but it has to depend on other factors.
-One reason why Haskell's lexical grammar is not _regular_ is because block comments are parsed differently when nesting.
+   > One reason why Python lexical grammar is not _regular_ is because it uses indentation as tokens and that can't be done using regular grammar.  
+   > The lexical grammar not _regular_ means that some tokens can't be recognized just by grammar rules but it has to depend on other factors.  
+   > One reason why Haskell's lexical grammar is not _regular_ is because block comments are parsed differently when nesting.
 
-**2. Aside from separating tokens - distinguishing `print foo` from `printfoo` - spaces aren't used for much in most languages. However, in a couple of dark corners, a space does affect how code is parsed in CoffeeScript, Ruby, and the C preprocessor. Where and what effect does it have in each of those languages?**
-In [this](https://stackoverflow.com/questions/16314251/coffeescript-issue-with-space) example of CoffeeScript, the space will affect how the code is parsed and the resulting code will be different.
-Similarly, Ruby also has [this](https://www.quora.com/Does-whitespace-matter-in-the-Ruby-language) issue where whitespace will matter in some specific circumstances.
-For C, [here](https://stackoverflow.com/questions/14763892/whitespace-in-c11-more-than-preprocessing-token-separation) are some cases when whitespace will have an impact on the resulting tokens.
+2. Aside from separating tokens - distinguishing `print foo` from `printfoo` - spaces aren't used for much in most languages. However, in a couple of dark corners, a space _does_ affect how code is parsed in CoffeeScript, Ruby, and the C preprocessor. Where and what effect does it have in each of those languages?
 
-**3. Our scanner here, like most, discards comments and whitespace since those aren't needed by the parser. Why might you want to write a scanner that does _not_ discard those? What would it be useful for?**
+   > In [this](https://stackoverflow.com/questions/16314251/coffeescript-issue-with-space) example of CoffeeScript, the space will affect how the code is parsed and the resulting code will be different.  
+   > Similarly, Ruby also has [this](https://www.quora.com/Does-whitespace-matter-in-the-Ruby-language) issue where whitespace will matter in some specific circumstances.  
+   > For C, [here](https://stackoverflow.com/questions/14763892/whitespace-in-c11-more-than-preprocessing-token-separation) are some cases when whitespace will have an impact on the resulting tokens.
 
-Some examples of a scanner that does not discard whitespace or comments are the formatters and linters used in VSCode for example. We want to scan the source code to format our code but do not want to modify the comments or whitespace originally in the code.
+3. Our scanner here, like most, discards comments and whitespace since those aren't needed by the parser. Why might you want to write a scanner that does _not_ discard those? What would it be useful for?
 
-**4. Add support to Lox's scanner for C-style `/* ... */` block comments. Make sure to handle newlines in them. Consider allowing them to nest. Is adding support for nesting more work than you expected? Why?**
+   > Some examples of a scanner that does not discard whitespace or comments are the formatters and linters used in VSCode for example. We want to scan the source code to format our code but do not want to modify the comments or whitespace originally in the code.
 
-I have added block comments support but have yet to add support for nesting.
-Adding support for nesting would require the use of a stack to store the occurences of the block comments to determine which level of the comment we are at. Either that, or another implementation might be a recursive function to consume the block comments.
-I have opted to use a recursive function to consume the block comments and deal with nesting.
+4. Add support to Lox's scanner for C-style `/* ... */` block comments. Make sure to handle newlines in them. Consider allowing them to nest. Is adding support for nesting more work than you expected? Why?
+
+   > I have added block comments support but have yet to add support for nesting.  
+   > Adding support for nesting would require the use of a stack to store the occurences of the block comments to determine which level of the comment we are at. Either that, or another implementation might be a recursive function to consume the block comments.  
+   > I have opted to use a recursive function to consume the block comments and deal with nesting.

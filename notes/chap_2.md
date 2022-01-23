@@ -99,11 +99,14 @@ The second interpreter we will implement will be within the overlapping region b
 
 ## Challenges
 
-**1. Pick an open source implementation of a language you like. Download the source code and poke around in it. Try to find the code that implements the scanner and parser. Are they handwritten, or generated using tools like Lex and Yacc? (`.l` or `.y` files usually imply the latter.)**
-The open source language is [Python](https://github.com/python/cpython). It seems that parser and scanner are in [Parser](https://github.com/python/cpython/tree/main/Parser). The parser and scanner for Python is handwritten in C and not using tools.
+1. Pick an open source implementation of a language you like. Download the source code and poke around in it. Try to find the code that implements the scanner and parser. Are they handwritten, or generated using tools like Lex and Yacc? (`.l` or `.y` files usually imply the latter.)
 
-**2. Just-in-time compilation tends to be the fastest way to implement dynamically typed languages, but not all of them use it. What reasons are there to not JIT?**
-Despite the having the speed of compiled code and flexibility of interpretation, JIT has the overhead of an interpreter and compiling and linking. Therefore, some dynamically typed languages might not want to use JIT because of the large overhead in doing interpreting, compiling, and linking.
+   > The open source language is [Python](https://github.com/python/cpython). It seems that parser and scanner are in [Parser](https://github.com/python/cpython/tree/main/Parser). The parser and scanner for Python is handwritten in C and not using tools.
 
-**3. Most Lisp implementation that compile to C also contain an interpreter that lets them execute Lisp code on the fly as well. Why?**
-Since Lisp is a dynamically typed language, the program can be changed at runtime. Having an interpreter for Lisp helps debugging the Lisp code dynamically. On the other hand, after finishing with debugging, the compiler exists to compile the code and make the program faster.
+2. Just-in-time compilation tends to be the fastest way to implement dynamically typed languages, but not all of them use it. What reasons are there to `not` JIT?
+
+   > Despite the having the speed of compiled code and flexibility of interpretation, JIT has the overhead of an interpreter and compiling and linking. Therefore, some dynamically typed languages might not want to use JIT because of the large overhead in doing interpreting, compiling, and linking.
+
+3. Most Lisp implementation that compile to C also contain an interpreter that lets them execute Lisp code on the fly as well. Why?
+
+   > Since Lisp is a dynamically typed language, the program can be changed at runtime. Having an interpreter for Lisp helps debugging the Lisp code dynamically. On the other hand, after finishing with debugging, the compiler exists to compile the code and make the program faster.

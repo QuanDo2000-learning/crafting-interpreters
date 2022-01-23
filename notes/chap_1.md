@@ -25,24 +25,24 @@
 
 ## Challenges
 
-**1. There are at least six domain-specific languages used in the little system I cobbled together to write and publish this book. What are they?**
+1. There are at least six domain-specific languages used in the [little system I cobbled together](https://github.com/munificent/craftinginterpreters) to write and publish this book. What are they?
 
-The languages are:
+   > The languages are:
+   >
+   > - HTML
+   > - CSS
+   > - SCSS
+   > - Markdown
+   > - XML
+   > - Makefile
+   > - Dart
 
-- HTML
-- CSS
-- SCSS
-- Markdown
-- XML
-- Makefile
-- Dart
+2. Get a "Hello, world!" program written and running in Java. Set up whatever makefiles or IDE projects you need to get it working. If you have a debugger, get comfortable with it and step through your program as it runs.
 
-**2. Get a "Hello, world!" program written and running in Java. Set up whatever makefiles or IDE projects you need to get it working. If you have a debugger, get comfortable with it and step through your program as it runs.**
+   > The environment will be VSCode with Java development kit installed.  
+   > This [link](https://code.visualstudio.com/docs/languages/java) can be followed to install Java in VSCode.
 
-The environment will be VSCode with Java development kit installed.
-This [link](https://code.visualstudio.com/docs/languages/java) can be followed to install Java in VSCode.
+3. Do the same thing for C. To get some practice with pointers, define a [doubly linked list](https://en.wikipedia.org/wiki/Doubly_linked_list) of heap-allocated strings. Write functions to insert, find, and delete items from it. Test them.
 
-**3. Do the same thing for C. To get some practice with pointers, define a doubly linked list of heap-allocated strings. Write functions to insert, find, and delete items from it. Test them.**
-
-The files for this challenge is saved in ./challenges/1-3
-Run by `gcc main.c -o main` then `./main.exe` (for Windows) or `./main` (for Linux)
+   > The files for this challenge is saved in ./challenges/1-3  
+   > Run by `gcc main.c -o main` then `./main.exe` (for Windows) or `./main` (for Linux)

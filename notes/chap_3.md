@@ -393,13 +393,16 @@ The only functionality for Lox covered in the book is `print` and `clock()`
 
 ## Challenges
 
-**1. Write some sample Lox programs and run them (you can use the implementations of Lox in my repository). Try to come up with edge case behavior I didn't specify here. Does it do what you expect? Why or why not?**
-Ran into some trouble installing the author's implementation.
-Dart was installed successfully and added to Path but make get was not working. Changed to using mingw32-make but ran into an error.
+1. Write some sample Lox programs and run them (you can use the implementations of Lox in [my repository](https://github.com/munificent/craftinginterpreters)). Try to come up with edge case behavior I didn't specify here. Does it do what you expect? Why or why not?
 
-**2. This informal introduction leaves a lot unspecified. List several open questions you have about the language's syntax and semantics. What do you think the answer should be?**
-Why was infix operators chosen instead of prefix or suffix? One reason I would go for is familiarity and ease of reading.
-Since loop was covered, there doesn't seem to be a way to break out of loops. Why? Maybe it adds more complexity to the implementation.
+   > Ran into some trouble installing the author's implementation.  
+   > Dart was installed successfully and added to Path but make get was not working. Changed to using mingw32-make but ran into an error.
 
-**3. Lox is a pretty tiny language. What features do you think it is missing that would make it annoying to use for real programs? (Aside from the standard library, of course.)**
-One feature would be bitwise operators and modulo operator. Some algorithms would benefit if we have these operators.
+2. This informal introduction leaves a lot unspecified. List several open questions you have about the language's syntax and semantics. What do you think the answer should be?
+
+   > Why was infix operators chosen instead of prefix or suffix? One reason I would go for is familiarity and ease of reading.  
+   > Since loop was covered, there doesn't seem to be a way to break out of loops. Why? Maybe it adds more complexity to the implementation.
+
+3. Lox is a pretty tiny language. What features do you think it is missing that would make it annoying to use for real programs? (Aside from the standard library, of course.)
+
+   > One feature would be bitwise operators and modulo operator. Some algorithms would benefit if we have these operators.
