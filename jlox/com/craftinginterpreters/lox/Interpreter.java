@@ -1,3 +1,6 @@
+// Interpreter.java
+// Contains the Interpreter class and all its methods
+
 package com.craftinginterpreters.lox;
 
 import java.util.ArrayList;
@@ -6,10 +9,14 @@ import java.util.List;
 import java.util.Map;
 
 class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
-  final Environment globals = new Environment();
-  private Environment environment = globals;
+  final Environment globals = new Environment(); // The global scope
+  private Environment environment = globals; // The current environment
   private final Map<Expr, Integer> locals = new HashMap<>();
 
+  /**
+   * Initialize the Interpreter with the global environment.
+   * Define a native function (clock()) in the global environment.
+   */
   Interpreter() {
     globals.define("clock", new LoxCallable() {
       @Override
@@ -29,6 +36,11 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     });
   }
 
+  /**
+   * Run the interpreter on a list of statements.
+   * 
+   * @param statements
+   */
   void interpret(List<Stmt> statements) {
     try {
       for (Stmt statement : statements) {
@@ -77,6 +89,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     int distance = locals.get(expr);
     LoxClass superclass = (LoxClass) environment.getAt(distance, "super");
 
+    // Get "this" instance
     LoxInstance object = (LoxInstance) environment.getAt(distance - 1, "this");
 
     LoxFunction method = superclass.findMethod(expr.method.lexeme);
@@ -102,10 +115,10 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
       case MINUS:
         checkNumberOperand(expr.operator, right);
         return -(double) right;
+      default:
+        // Unreachable
+        return null;
     }
-
-    // Unreachable
-    return null;
   }
 
   @Override
@@ -113,6 +126,13 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     return lookUpVariable(expr.name, expr);
   }
 
+  /**
+   * Look up the variable using the distance information.
+   * 
+   * @param name
+   * @param expr
+   * @return
+   */
   private Object lookUpVariable(Token name, Expr expr) {
     Integer distance = locals.get(expr);
     if (distance != null) {
@@ -122,18 +142,38 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     }
   }
 
+  /**
+   * Throw an error if the given operand is not a number.
+   * 
+   * @param operator
+   * @param operand
+   */
   private void checkNumberOperand(Token operator, Object operand) {
     if (operand instanceof Double)
       return;
     throw new RuntimeError(operator, "Operand must be a number.");
   }
 
+  /**
+   * Throw an error if either given operand is not a number.
+   * 
+   * @param operator
+   * @param left
+   * @param right
+   */
   private void checkNumberOperands(Token operator, Object left, Object right) {
     if (left instanceof Double && right instanceof Double)
       return;
     throw new RuntimeError(operator, "Operands must be numbers.");
   }
 
+  /**
+   * Return false for {@code false} and {@code nil}.
+   * Return true for everything else.
+   * 
+   * @param object
+   * @return {@code boolean}
+   */
   private boolean isTruthy(Object object) {
     if (object == null)
       return false;
@@ -142,6 +182,16 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     return true;
   }
 
+  /**
+   * Check if 2 objects are equal.
+   * Because of similar behavior, Java's {@code equals()} will be used.
+   * The only extra case is when either or both objects is null.
+   * If they are both null, they are equal and not otherwise.
+   * 
+   * @param a
+   * @param b
+   * @return
+   */
   private boolean isEqual(Object a, Object b) {
     if (a == null && b == null)
       return true;
@@ -150,6 +200,12 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     return a.equals(b);
   }
 
+  /**
+   * Convert an object to string for output.
+   * 
+   * @param object
+   * @return {@code String}
+   */
   private String stringify(Object object) {
     if (object == null)
       return "nil";
@@ -170,18 +226,41 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     return evaluate(expr.expression);
   }
 
+  /**
+   * Sends the expression back into the interpreter's visitor implementation.
+   * 
+   * @param expr expression to evaluate
+   * @return
+   */
   private Object evaluate(Expr expr) {
     return expr.accept(this);
   }
 
+  /**
+   * Execute a single statement.
+   * 
+   * @param stmt
+   */
   private void execute(Stmt stmt) {
     stmt.accept(this);
   }
 
+  /**
+   * Put the resolved expression along with where to find it on a map.
+   * 
+   * @param expr
+   * @param depth
+   */
   void resolve(Expr expr, int depth) {
     locals.put(expr, depth);
   }
 
+  /**
+   * Execute the statements inside a block in a specified environment.
+   * 
+   * @param statements
+   * @param environment
+   */
   void executeBlock(List<Stmt> statements, Environment environment) {
     Environment previous = this.environment;
     try {
@@ -191,6 +270,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         execute(statement);
       }
     } finally {
+      // The previous environment is always restored
       this.environment = previous;
     }
   }
@@ -334,7 +414,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         if (left instanceof Double && right instanceof Double) {
           return (double) left + (double) right;
         }
-
+        // Support string concatenation
         if (left instanceof String && right instanceof String) {
           return (String) left + (String) right;
         }
@@ -346,10 +426,11 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
       case STAR:
         checkNumberOperands(expr.operator, left, right);
         return (double) left * (double) right;
-    }
 
-    // Unreachable
-    return null;
+      default:
+        // Unreachable
+        return null;
+    }
   }
 
   @Override

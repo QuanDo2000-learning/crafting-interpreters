@@ -1,3 +1,6 @@
+// Resolver.java
+// Contains the class and methods to implement the resolver for Lox.
+
 package com.craftinginterpreters.lox;
 
 import java.util.HashMap;
@@ -7,9 +10,15 @@ import java.util.Stack;
 
 class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
   private final Interpreter interpreter;
+  // The Boolean shows whether the variable is defined and can be used
   private final Stack<Map<String, Boolean>> scopes = new Stack<>();
   private FunctionType currentFunction = FunctionType.NONE;
 
+  /**
+   * Initialize the resolver with a specified interpreter.
+   * 
+   * @param interpreter
+   */
   Resolver(Interpreter interpreter) {
     this.interpreter = interpreter;
   }
@@ -29,12 +38,23 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
   private ClassType currentClass = ClassType.NONE;
 
+  /**
+   * Resolves each statement in a list.
+   * 
+   * @param statements
+   */
   void resolve(List<Stmt> statements) {
     for (Stmt statement : statements) {
       resolve(statement);
     }
   }
 
+  /**
+   * Resolve the function body.
+   * 
+   * @param function
+   * @param type
+   */
   private void resolveFunction(Stmt.Function function, FunctionType type) {
     FunctionType enclosingFunction = currentFunction;
     currentFunction = type;
@@ -49,14 +69,25 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     currentFunction = enclosingFunction;
   }
 
+  /**
+   * Begin a new scope and add it to the scope stack.
+   */
   private void beginScope() {
     scopes.push(new HashMap<String, Boolean>());
   }
 
+  /**
+   * We end scope by pipping it out of the stack.
+   */
   private void endScope() {
     scopes.pop();
   }
 
+  /**
+   * Declare a variable but it is not available for usage.
+   * 
+   * @param name
+   */
   private void declare(Token name) {
     if (scopes.isEmpty())
       return;
@@ -68,12 +99,25 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     scope.put(name.lexeme, false);
   }
 
+  /**
+   * Define the variable and make it available for use.
+   * 
+   * @param name
+   */
   private void define(Token name) {
     if (scopes.isEmpty())
       return;
     scopes.peek().put(name.lexeme, true);
   }
 
+  /**
+   * Resolve a variable, looking from the innermost scope.
+   * If success, the distance to the variable is passed to the interpreter.
+   * Otherwise, the variable is assumed to be in global scope.
+   * 
+   * @param expr
+   * @param name
+   */
   private void resolveLocal(Expr expr, Token name) {
     for (int i = scopes.size() - 1; i >= 0; i--) {
       if (scopes.get(i).containsKey(name.lexeme)) {
@@ -114,6 +158,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     }
 
     beginScope();
+    // Automatically define "this" in a class.
     scopes.peek().put("this", true);
 
     for (Stmt.Function method : stmt.methods) {
@@ -295,10 +340,20 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     return null;
   }
 
+  /**
+   * Resolve a single statement.
+   * 
+   * @param stmt
+   */
   private void resolve(Stmt stmt) {
     stmt.accept(this);
   }
 
+  /**
+   * Resolve a single expression.
+   * 
+   * @param expr
+   */
   private void resolve(Expr expr) {
     expr.accept(this);
   }

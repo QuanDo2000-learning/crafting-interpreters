@@ -1,3 +1,6 @@
+// AstPrinter.java
+// Print the abstract syntax tree
+
 package com.craftinginterpreters.lox;
 
 class AstPrinter implements Expr.Visitor<String> {
@@ -27,6 +30,13 @@ class AstPrinter implements Expr.Visitor<String> {
     return parenthesize(expr.operator.lexeme, expr.right);
   }
 
+  /**
+   * Place parentheses around expressions.
+   * 
+   * @param name  operator
+   * @param exprs subexpressions
+   * @return
+   */
   private String parenthesize(String name, Expr... exprs) {
     StringBuilder builder = new StringBuilder();
 
@@ -40,6 +50,11 @@ class AstPrinter implements Expr.Visitor<String> {
     return builder.toString();
   }
 
+  /**
+   * Test the AST at the end of Chapter 5.
+   * 
+   * @param args
+   */
   public static void main(String[] args) {
     Expr expression = new Expr.Binary(
         new Expr.Unary(

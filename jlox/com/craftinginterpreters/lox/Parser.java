@@ -1,3 +1,6 @@
+// Parser.java
+// Contains the Parser class
+
 package com.craftinginterpreters.lox;
 
 import java.util.ArrayList;
@@ -7,16 +10,30 @@ import java.util.List;
 import static com.craftinginterpreters.lox.TokenType.*;
 
 class Parser {
+  // Sentinel class to unwind the parser
   private static class ParseError extends RuntimeException {
   }
 
   private final List<Token> tokens;
-  private int current = 0;
+  private int current = 0; // Current position of Parser in token list
 
+  /**
+   * Initializes the Parser with the list of tokens.
+   * 
+   * @param tokens
+   */
   Parser(List<Token> tokens) {
     this.tokens = tokens;
   }
 
+  /**
+   * Initial method to start the Parser.
+   * Parse the program grammar rule.
+   * <p>
+   * program -> declaration* EOF
+   * 
+   * @return list of statements
+   */
   List<Stmt> parse() {
     List<Stmt> statements = new ArrayList<>();
     while (!isAtEnd()) {
@@ -26,15 +43,31 @@ class Parser {
     return statements;
   }
 
+  /**
+   * Parse the expression grammar rule
+   * <p>
+   * expression -> assignment
+   * 
+   * @return
+   */
   private Expr expression() {
     return assignment();
   }
 
+  /**
+   * Parse the declaration grammar rule.
+   * <p>
+   * declaration -> classDecl | funDecl | varDecl | statement
+   * 
+   * @return
+   */
   private Stmt declaration() {
     try {
       if (match(CLASS))
         return classDeclaration();
       if (match(FUN))
+        // Parse funDecl
+        // funDecl -> "fun" function
         return function("function");
       if (match(VAR))
         return varDeclaration();
@@ -46,6 +79,13 @@ class Parser {
     }
   }
 
+  /**
+   * Parse the classDecl grammar rule.
+   * <p>
+   * classDecl -> "class" IDENTIFIER ("<" IDENTIFIER)? "{" function* "}"
+   * 
+   * @return
+   */
   private Stmt classDeclaration() {
     Token name = consume(IDENTIFIER, "Expect class name.");
 
@@ -67,6 +107,14 @@ class Parser {
     return new Stmt.Class(name, superclass, methods);
   }
 
+  /**
+   * Parse statement grammar rule.
+   * <p>
+   * statement -> exprStmt | forStmt | ifStmt | printStmt
+   * | returnStmt | whileStmt | block
+   * 
+   * @return
+   */
   private Stmt statement() {
     if (match(FOR))
       return forStatement();
@@ -84,6 +132,14 @@ class Parser {
     return expressionStatement();
   }
 
+  /**
+   * Parse the forStmt grammar rule.
+   * <p>
+   * forStmt -> "for" "(" (varDecl | exprStmt | ";") expression? ";" expression?
+   * ")" statement
+   * 
+   * @return
+   */
   private Stmt forStatement() {
     consume(LEFT_PAREN, "Expect '(' after 'for'.");
 
@@ -127,6 +183,13 @@ class Parser {
     return body;
   }
 
+  /**
+   * Parse the ifStmt grammar rule.
+   * <p>
+   * ifStmt -> "if" "(" expression ")" statement ("else" statement)?
+   * 
+   * @return
+   */
   private Stmt ifStatement() {
     consume(LEFT_PAREN, "Expect '(' after 'if'.");
     Expr condition = expression();
@@ -141,12 +204,26 @@ class Parser {
     return new Stmt.If(condition, thenBranch, elseBranch);
   }
 
+  /**
+   * Parse printStmt grammar rule.
+   * <p>
+   * printStmt -> "print" expression ";"
+   * 
+   * @return
+   */
   private Stmt printStatement() {
     Expr value = expression();
     consume(SEMICOLON, "Expect ';' after value.");
     return new Stmt.Print(value);
   }
 
+  /**
+   * Parse the returnStmt grammar rule.
+   * <p>
+   * returnStmt -> "return" expression? ";"
+   * 
+   * @return
+   */
   private Stmt returnStatement() {
     Token keyword = previous();
     Expr value = null;
@@ -158,6 +235,13 @@ class Parser {
     return new Stmt.Return(keyword, value);
   }
 
+  /**
+   * Parse the varDecl grammar rule.
+   * <p>
+   * varDecl -> "var" IDENTIFIER ("=" expression)? ";"
+   * 
+   * @return
+   */
   private Stmt varDeclaration() {
     Token name = consume(IDENTIFIER, "Expect variable name.");
 
@@ -170,6 +254,13 @@ class Parser {
     return new Stmt.Var(name, initializer);
   }
 
+  /**
+   * Parse the whileStmt grammar rule.
+   * <p>
+   * whileStmt -> "while" "(" expression ")" statement
+   * 
+   * @return
+   */
   private Stmt whileStatement() {
     consume(LEFT_PAREN, "Expect '(' after 'while'.");
     Expr condition = expression();
@@ -179,12 +270,29 @@ class Parser {
     return new Stmt.While(condition, body);
   }
 
+  /**
+   * Parse exprStmt grammar rule.
+   * <p>
+   * exprStmt -> expression ";"
+   * 
+   * @return
+   */
   private Stmt expressionStatement() {
     Expr expr = expression();
     consume(SEMICOLON, "Expect ';' after expression.");
     return new Stmt.Expression(expr);
   }
 
+  /**
+   * Parse the function and parameters grammar rule.
+   * <p>
+   * function -> IDENTIFIER "(" parameters? ")" block
+   * <p>
+   * parameters -> IDENTIFIER ("," IDENTIFIER)*
+   * 
+   * @param kind
+   * @return
+   */
   private Stmt.Function function(String kind) {
     Token name = consume(IDENTIFIER, "Expect " + kind + " name.");
     consume(LEFT_PAREN, "Expect '(' after " + kind + " name.");
@@ -205,6 +313,13 @@ class Parser {
     return new Stmt.Function(name, parameters, body);
   }
 
+  /**
+   * Parse the block grammar rule.
+   * <p>
+   * block -> "{" declaration* "}"
+   * 
+   * @return
+   */
   private List<Stmt> block() {
     List<Stmt> statements = new ArrayList<>();
 
@@ -216,6 +331,13 @@ class Parser {
     return statements;
   }
 
+  /**
+   * Parse the assignment grammar rule.
+   * <p>
+   * assignment -> (call ".")? IDENTIFIER "=" assignment | logic_or
+   * 
+   * @return
+   */
   private Expr assignment() {
     Expr expr = or();
 
@@ -237,6 +359,13 @@ class Parser {
     return expr;
   }
 
+  /**
+   * Parse the logic_or grammar rule.
+   * <p>
+   * logic_or -> logic_and ("or" logic_and)*
+   * 
+   * @return
+   */
   private Expr or() {
     Expr expr = and();
 
@@ -249,6 +378,13 @@ class Parser {
     return expr;
   }
 
+  /**
+   * Parse the logic_and grammar rule.
+   * <p>
+   * logic_and -> equality ("and" equality)*
+   * 
+   * @return
+   */
   private Expr and() {
     Expr expr = equality();
 
@@ -261,6 +397,13 @@ class Parser {
     return expr;
   }
 
+  /**
+   * Parse the equality grammar rule.
+   * <p>
+   * equality -> comparison (("!=" | "==") comparison)*
+   * 
+   * @return
+   */
   private Expr equality() {
     Expr expr = comparison();
 
@@ -273,6 +416,13 @@ class Parser {
     return expr;
   }
 
+  /**
+   * Parse the comparison grammar rule.
+   * <p>
+   * comparison -> term ((">" | ">=" | "<" | "<=") term)*
+   * 
+   * @return
+   */
   private Expr comparison() {
     Expr expr = term();
 
@@ -285,6 +435,13 @@ class Parser {
     return expr;
   }
 
+  /**
+   * Parse the term grammar rule.
+   * <p>
+   * term -> factor (("-" | "+") factor)*
+   * 
+   * @return
+   */
   private Expr term() {
     Expr expr = factor();
 
@@ -297,6 +454,13 @@ class Parser {
     return expr;
   }
 
+  /**
+   * Parse the factor grammar rule.
+   * <p>
+   * factor -> unary (("/" | "*") unary)*
+   * 
+   * @return
+   */
   private Expr factor() {
     Expr expr = unary();
 
@@ -309,6 +473,13 @@ class Parser {
     return expr;
   }
 
+  /**
+   * Parse the unary grammar rule.
+   * <p>
+   * unary -> ("!" | "-") unary | call
+   * 
+   * @return
+   */
   private Expr unary() {
     if (match(BANG, MINUS)) {
       Token operator = previous();
@@ -319,6 +490,14 @@ class Parser {
     return call();
   }
 
+  /**
+   * Parse the arguments grammar rule and complete the function call.
+   * <p>
+   * arguments -> expression ("," expression)*
+   * 
+   * @param callee
+   * @return
+   */
   private Expr finishCall(Expr callee) {
     List<Expr> arguments = new ArrayList<>();
     if (!check(RIGHT_PAREN)) {
@@ -335,6 +514,13 @@ class Parser {
     return new Expr.Call(callee, paren, arguments);
   }
 
+  /**
+   * Parse the call grammar rule.
+   * <p>
+   * call -> primary ("(" arguments? ")" | "." IDENTIFIER)*
+   * 
+   * @return
+   */
   private Expr call() {
     Expr expr = primary();
 
@@ -352,6 +538,14 @@ class Parser {
     return expr;
   }
 
+  /**
+   * Parse primary grammar rule.
+   * <p>
+   * primary -> NUMBER | STRING | "true" | "false" | "nil"
+   * | "(" expression ")" | IDENTIFIER | "super" "." IDENTIFIER
+   * 
+   * @return
+   */
   private Expr primary() {
     if (match(FALSE))
       return new Expr.Literal(false);
@@ -387,6 +581,13 @@ class Parser {
     throw error(peek(), "Expect expression.");
   }
 
+  /**
+   * Check the current token if it matches any given input types.
+   * The token is consumed if true.
+   * 
+   * @param types
+   * @return {@code boolean}
+   */
   private boolean match(TokenType... types) {
     for (TokenType type : types) {
       if (check(type)) {
@@ -398,6 +599,14 @@ class Parser {
     return false;
   }
 
+  /**
+   * Consume the next token if it matches the expected type.
+   * Otherwise, an error is thrown.
+   * 
+   * @param type    expected typed of token
+   * @param message message for the user if not expected type
+   * @return token
+   */
   private Token consume(TokenType type, String message) {
     if (check(type))
       return advance();
@@ -405,35 +614,75 @@ class Parser {
     throw error(peek(), message);
   }
 
+  /**
+   * Check if the current token matches the given type.
+   * 
+   * @param type
+   * @return {@code boolean}
+   */
   private boolean check(TokenType type) {
     if (isAtEnd())
       return false;
     return peek().type == type;
   }
 
+  /**
+   * Consume the current token and return it.
+   * Move the Parser to the next token.
+   * 
+   * @return token
+   */
   private Token advance() {
     if (!isAtEnd())
       current++;
     return previous();
   }
 
+  /**
+   * Check if the Parser reached the EOF.
+   * 
+   * @return {@code boolean}
+   */
   private boolean isAtEnd() {
     return peek().type == EOF;
   }
 
+  /**
+   * Get the current token
+   * 
+   * @return token
+   */
   private Token peek() {
     return tokens.get(current);
   }
 
+  /**
+   * Get the previous token
+   * 
+   * @return token
+   */
   private Token previous() {
     return tokens.get(current - 1);
   }
 
+  /**
+   * Report and returns an error at the specified token.
+   * The error is returned so the calling function can decide what to do.
+   * 
+   * @param token   token where error happened
+   * @param message message to the user
+   * @return {@code ParseError}
+   */
   private ParseError error(Token token, String message) {
     Lox.error(token, message);
     return new ParseError();
   }
 
+  /**
+   * Synchronizes the parser after an error happened.
+   * Synchronization point is between statements.
+   * Detected by finding a semicolon or a keyword.
+   */
   private void synchronize() {
     advance();
 
@@ -451,6 +700,8 @@ class Parser {
         case PRINT:
         case RETURN:
           return;
+        default:
+          break;
       }
 
       advance();

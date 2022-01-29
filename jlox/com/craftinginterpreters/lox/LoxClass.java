@@ -1,3 +1,6 @@
+// LoxClass.java
+// Contains the class and methods to implement a Lox class.
+
 package com.craftinginterpreters.lox;
 
 import java.util.List;
@@ -8,12 +11,25 @@ class LoxClass implements LoxCallable {
   final LoxClass superclass;
   private final Map<String, LoxFunction> methods;
 
+  /**
+   * Initialize the Lox class with the given parameters.
+   * 
+   * @param name
+   * @param superclass
+   * @param methods
+   */
   LoxClass(String name, LoxClass superclass, Map<String, LoxFunction> methods) {
     this.superclass = superclass;
     this.name = name;
     this.methods = methods;
   }
 
+  /**
+   * Find the specified method name from the class.
+   * 
+   * @param name
+   * @return
+   */
   LoxFunction findMethod(String name) {
     if (methods.containsKey(name)) {
       return methods.get(name);

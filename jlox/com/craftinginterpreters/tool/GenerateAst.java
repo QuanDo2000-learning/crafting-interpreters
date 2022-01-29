@@ -1,3 +1,6 @@
+// GenerateAst.java
+// Generate Expr.java and Stmt.java which houses the class for Expression and Statement for the syntax tree
+
 package com.craftinginterpreters.tool;
 
 import java.io.IOException;
@@ -6,12 +9,19 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GenerateAst {
+  /**
+   * Generate the syntax tree classes.
+   * 
+   * @param args from the command line
+   * @throws IOException
+   */
   public static void main(String[] args) throws IOException {
     if (args.length != 1) {
       System.err.println("Usage: generate_ast <output directory>");
       System.exit(64);
     }
     String outputDir = args[0];
+    // Expression types
     defineAst(outputDir, "Expr", Arrays.asList(
         "Assign: Token name, Expr value",
         "Binary: Expr left, Token operator, Expr right",
@@ -26,6 +36,7 @@ public class GenerateAst {
         "Unary: Token operator, Expr right",
         "Variable: Token name"));
 
+    // Statement types
     defineAst(outputDir, "Stmt", Arrays.asList(
         "Block: List<Stmt> statements",
         "Class: Token name, Expr.Variable superclass, List<Stmt.Function> methods",
@@ -38,6 +49,14 @@ public class GenerateAst {
         "While: Expr condition, Stmt body"));
   }
 
+  /**
+   * Define an AST base class and all subclasses.
+   * 
+   * @param outputDir output directory path
+   * @param baseName  name of base class
+   * @param types     name and fields of all subclasses
+   * @throws IOException
+   */
   private static void defineAst(
       String outputDir, String baseName, List<String> types) throws IOException {
     String path = outputDir + "/" + baseName + ".java";
@@ -66,6 +85,13 @@ public class GenerateAst {
     writer.close();
   }
 
+  /**
+   * Define the {@code Visitor} interface and all methods for each subclass.
+   * 
+   * @param writer   writer to the current file
+   * @param baseName name of base class
+   * @param types    list of names and fields of all subclasses
+   */
   private static void defineVisitor(
       PrintWriter writer, String baseName, List<String> types) {
     writer.println("  interface Visitor<R> {");
@@ -78,6 +104,14 @@ public class GenerateAst {
     writer.println("  }");
   }
 
+  /**
+   * Define each subclass within the base class.
+   * 
+   * @param writer    writer to the current file
+   * @param baseName  name of base class
+   * @param className name of subclass
+   * @param fieldList list of fields of the subclass
+   */
   private static void defineType(
       PrintWriter writer, String baseName, String className, String fieldList) {
     writer.println("  static class " + className + " extends " + baseName + " {");

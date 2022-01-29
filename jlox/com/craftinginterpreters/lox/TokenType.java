@@ -1,3 +1,6 @@
+// TokenType.java
+// Define all token types for Lox
+
 package com.craftinginterpreters.lox;
 
 enum TokenType {
@@ -18,5 +21,6 @@ enum TokenType {
   AND, CLASS, ELSE, FALSE, FUN, FOR, IF, NIL, OR,
   PRINT, RETURN, SUPER, THIS, TRUE, VAR, WHILE,
 
+  // End of file
   EOF
 }

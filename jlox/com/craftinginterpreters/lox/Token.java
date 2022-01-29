@@ -1,3 +1,6 @@
+// Token.java
+// Define a Token and all the information that it stores
+
 package com.craftinginterpreters.lox;
 
 class Token {

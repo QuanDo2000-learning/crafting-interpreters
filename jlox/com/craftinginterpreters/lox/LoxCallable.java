@@ -1,3 +1,6 @@
+// LoxCallable.java
+// Contains the interface to implement functions in Lox.
+
 package com.craftinginterpreters.lox;
 
 import java.util.List;
