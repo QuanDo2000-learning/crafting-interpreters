@@ -104,7 +104,7 @@ One important data structure is **closure** where it "closes over" and holds on 
 
    Languages that encourage a functional style usually support **anonymous functions** or **lambdas**—an expression syntax that creates a function without binding it to a name. Add anonymous function syntax to Lox so that this works:
 
-   ```jlox
+   ```lox
    fun thrice(fn) {
      for (var i = 1; i <= 3; i = i + 1) {
        fn(i);
@@ -121,13 +121,13 @@ One important data structure is **closure** where it "closes over" and holds on 
 
    How do you handle the tricky case of an anonymous function expression occurring in an expression statement:
 
-   ```jlox
+   ```lox
    fun () {};
    ```
 
 3. Is this program valid?
 
-   ```jlox
+   ```lox
    fun scope(a) {
      var a = "local";
    }
