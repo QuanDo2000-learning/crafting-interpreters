@@ -14,6 +14,8 @@ typedef enum {
   OP_TRUE,           // Push true value onto stack (1 byte)
   OP_FALSE,          // Push false value onto stack (1 byte)
   OP_POP,            // Pop top value from stack (1 byte)
+  OP_GET_LOCAL,      // Get local variable and push it on the stack (2 bytes)
+  OP_SET_LOCAL,      // Set (NO pop) top value to local variable (2 bytes)
   OP_GET_GLOBAL,     // Get global value and push it on the stack (2 bytes)
   OP_DEFINE_GLOBAL,  // Define a global variable (2 bytes)
   OP_SET_GLOBAL,     // Set top value on stack to a global variable (2 bytes)
