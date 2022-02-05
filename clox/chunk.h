@@ -29,6 +29,9 @@ typedef enum {
   OP_NOT,            // Reverse the logical value (1 byte)
   OP_NEGATE,         // Negate top value on stack (1 byte)
   OP_PRINT,          // Print top value on stack (1 byte)
+  OP_JUMP,           // Unconditional jump (3 bytes)
+  OP_JUMP_IF_FALSE,  // Jump instructions if false (3 bytes)
+  OP_LOOP,           // Loop instruction (3 bytes)
   OP_RETURN,         // Return from current function (1 byte)
 } OpCode;
 
