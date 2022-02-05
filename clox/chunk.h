@@ -10,10 +10,17 @@
 // Each opcode describes an instruction.
 typedef enum {
   OP_CONSTANT,  // Produce a constant (2 bytes)
+  OP_NIL,       // Push nil value onto stack (1 byte)
+  OP_TRUE,      // Push true value onto stack (1 byte)
+  OP_FALSE,     // Push false value onto stack (1 byte)
+  OP_EQUAL,     // Top 2 == Top 1 on stack (1 byte)
+  OP_GREATER,   // Top 2 > Top 1 on stack (1 byte)
+  OP_LESS,      // Top 2 < Top 1 on stack (1 byte)
   OP_ADD,       // Top 2 + Top 1 on stack (1 byte)
   OP_SUBTRACT,  // Top 2 - Top 1 on stack (1 byte)
   OP_MULTIPLY,  // Top 2 * Top 1 on stack (1 byte)
   OP_DIVIDE,    // Top 2 / Top 1 on stack (1 byte)
+  OP_NOT,       // Reverse the logical value (1 byte)
   OP_NEGATE,    // Negate top value on stack (1 byte)
   OP_RETURN,    // Return from current function (1 byte)
 } OpCode;

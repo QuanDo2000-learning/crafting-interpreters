@@ -3,7 +3,7 @@
 # make clean	# remove ALL binaries and objects
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -Wno-unused-parameter -Wno-unused-function -O0 -DDEBUG -g -std=c99
+CFLAGS = -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -O0 -DDEBUG -g -std=c99
 
 NAME := clox
 SOURCE_DIR := clox

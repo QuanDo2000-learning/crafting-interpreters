@@ -4,8 +4,12 @@
 #ifndef clox_compiler_h
 #define clox_compiler_h
 
+#include "object.h"
+#include "vm.h"
+
 // Compile the given source code into bytecode.
-// The source code is passed through the scanner and then the compiler and finally the Virtual Machine.
-void compile(const char* source);
+// The bytecode is placed into the provided chunk.
+// Return value shows whether compilation finished successfully.
+bool compile(const char* source, Chunk* chunk);
 
 #endif
