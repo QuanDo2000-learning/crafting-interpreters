@@ -16,6 +16,7 @@ typedef struct {
   uint8_t* ip;             // Instruction pointer, always point to the next instruction
   Value stack[STACK_MAX];  // Value stack implemented in C-array
   Value* stackTop;         // Pointer to the top of the stack, past the last appended element.
+  Table globals;           // Store all global variables.
   Table strings;           // Store all the "intern" strings.
   Obj* objects;            // Pointer to the head of the object list
 } VM;
