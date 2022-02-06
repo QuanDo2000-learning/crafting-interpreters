@@ -32,6 +32,7 @@ typedef enum {
   OP_JUMP,           // Unconditional jump (3 bytes)
   OP_JUMP_IF_FALSE,  // Jump instructions if false (3 bytes)
   OP_LOOP,           // Loop instruction (3 bytes)
+  OP_CALL,           // Function call instruction (2 bytes)
   OP_RETURN,         // Return from current function (1 byte)
 } OpCode;
 

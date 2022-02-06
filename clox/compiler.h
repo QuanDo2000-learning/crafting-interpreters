@@ -8,8 +8,7 @@
 #include "vm.h"
 
 // Compile the given source code into bytecode.
-// The bytecode is placed into the provided chunk.
-// Return value shows whether compilation finished successfully.
-bool compile(const char* source, Chunk* chunk);
+// Returns a function.
+ObjFunction* compile(const char* source);
 
 #endif

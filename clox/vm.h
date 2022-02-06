@@ -5,15 +5,25 @@
 #define clox_vm_h
 
 #include "chunk.h"
+#include "object.h"
 #include "table.h"
 #include "value.h"
 
-#define STACK_MAX 256
+#define FRAMES_MAX 64
+#define STACK_MAX (FRAMES_MAX * UINT8_COUNT)
+
+// Data structure to keep track of a function's call frame.
+typedef struct {
+  ObjFunction* function;
+  uint8_t* ip;   // Instruction pointer of current function
+  Value* slots;  // Pointer to first value slot of the function
+} CallFrame;
 
 // Data structure to keep track of the VM's state.
 typedef struct {
-  Chunk* chunk;
-  uint8_t* ip;             // Instruction pointer, always point to the next instruction
+  CallFrame frames[FRAMES_MAX];  // Stack of function calls
+  int frameCount;
+
   Value stack[STACK_MAX];  // Value stack implemented in C-array
   Value* stackTop;         // Pointer to the top of the stack, past the last appended element.
   Table globals;           // Store all global variables.
