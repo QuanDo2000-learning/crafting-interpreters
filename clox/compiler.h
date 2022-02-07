@@ -10,5 +10,6 @@
 // Compile the given source code into bytecode.
 // Returns a function.
 ObjFunction* compile(const char* source);
+void markCompilerRoots();
 
 #endif

@@ -29,7 +29,13 @@ typedef struct {
   Table globals;             // Store all global variables.
   Table strings;             // Store all the "intern" strings.
   ObjUpvalue* openUpvalues;  // Store all closure variables
-  Obj* objects;              // Pointer to the head of the object list
+
+  size_t bytesAllocated;
+  size_t nextGC;  // Threshold to trigger GC
+  Obj* objects;   // Pointer to the head of the object list
+  int grayCount;
+  int grayCapacity;
+  Obj** grayStack;  // Keep all gray nodes during garbage collection
 } VM;
 
 // Enumerator for all return values after interpret.

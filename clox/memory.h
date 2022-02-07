@@ -34,6 +34,12 @@
 // Non-zero | < oldSize | Shrink allocation.
 // Non-zero | > oldSize | Grow allocation.
 void* reallocate(void* pointer, size_t oldSize, size_t newSize);
+// Mark an object as reachable.
+void markObject(Obj* object);
+// Mark a value as reachable.
+void markValue(Value value);
+// Dynamic garbage collection.
+void collectGarbage();
 // Free all objects from memory.
 void freeObjects();
 
