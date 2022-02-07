@@ -19,6 +19,8 @@ typedef enum {
   OP_GET_GLOBAL,     // Get global value and push it on the stack (2 bytes)
   OP_DEFINE_GLOBAL,  // Define a global variable (2 bytes)
   OP_SET_GLOBAL,     // Set top value on stack to a global variable (2 bytes)
+  OP_GET_UPVALUE,    // Get upvalue and push onto stack (2 bytes)
+  OP_SET_UPVALUE,    // Set upvalue (2 bytes)
   OP_EQUAL,          // Top 2 == Top 1 on stack (1 byte)
   OP_GREATER,        // Top 2 > Top 1 on stack (1 byte)
   OP_LESS,           // Top 2 < Top 1 on stack (1 byte)
@@ -33,6 +35,8 @@ typedef enum {
   OP_JUMP_IF_FALSE,  // Jump instructions if false (3 bytes)
   OP_LOOP,           // Loop instruction (3 bytes)
   OP_CALL,           // Function call instruction (2 bytes)
+  OP_CLOSURE,        // Create a function closure (? bytes)
+  OP_CLOSE_UPVALUE,  // Mark variable as closed for closure (1 byte)
   OP_RETURN,         // Return from current function (1 byte)
 } OpCode;
 

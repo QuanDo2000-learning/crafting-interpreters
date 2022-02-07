@@ -14,7 +14,7 @@
 
 // Data structure to keep track of a function's call frame.
 typedef struct {
-  ObjFunction* function;
+  ObjClosure* closure;
   uint8_t* ip;   // Instruction pointer of current function
   Value* slots;  // Pointer to first value slot of the function
 } CallFrame;
@@ -24,11 +24,12 @@ typedef struct {
   CallFrame frames[FRAMES_MAX];  // Stack of function calls
   int frameCount;
 
-  Value stack[STACK_MAX];  // Value stack implemented in C-array
-  Value* stackTop;         // Pointer to the top of the stack, past the last appended element.
-  Table globals;           // Store all global variables.
-  Table strings;           // Store all the "intern" strings.
-  Obj* objects;            // Pointer to the head of the object list
+  Value stack[STACK_MAX];    // Value stack implemented in C-array
+  Value* stackTop;           // Pointer to the top of the stack, past the last appended element.
+  Table globals;             // Store all global variables.
+  Table strings;             // Store all the "intern" strings.
+  ObjUpvalue* openUpvalues;  // Store all closure variables
+  Obj* objects;              // Pointer to the head of the object list
 } VM;
 
 // Enumerator for all return values after interpret.
