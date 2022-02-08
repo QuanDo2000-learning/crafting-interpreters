@@ -21,6 +21,8 @@ typedef enum {
   OP_SET_GLOBAL,     // Set top value on stack to a global variable (2 bytes)
   OP_GET_UPVALUE,    // Get upvalue and push onto stack (2 bytes)
   OP_SET_UPVALUE,    // Set upvalue (2 bytes)
+  OP_GET_PROPERTY,   // Get class property (2 bytes)
+  OP_SET_PROPERTY,   // Set class property (2 bytes)
   OP_EQUAL,          // Top 2 == Top 1 on stack (1 byte)
   OP_GREATER,        // Top 2 > Top 1 on stack (1 byte)
   OP_LESS,           // Top 2 < Top 1 on stack (1 byte)
@@ -38,6 +40,7 @@ typedef enum {
   OP_CLOSURE,        // Create a function closure (? bytes)
   OP_CLOSE_UPVALUE,  // Mark variable as closed for closure (1 byte)
   OP_RETURN,         // Return from current function (1 byte)
+  OP_CLASS,          // Declare a class (2 bytes)
 } OpCode;
 
 // Struct to hold data stored along with the instructions.
