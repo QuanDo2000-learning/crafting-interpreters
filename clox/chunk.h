@@ -37,10 +37,12 @@ typedef enum {
   OP_JUMP_IF_FALSE,  // Jump instructions if false (3 bytes)
   OP_LOOP,           // Loop instruction (3 bytes)
   OP_CALL,           // Function call instruction (2 bytes)
+  OP_INVOKE,         // Invoke a class method (3 bytes)
   OP_CLOSURE,        // Create a function closure (? bytes)
   OP_CLOSE_UPVALUE,  // Mark variable as closed for closure (1 byte)
   OP_RETURN,         // Return from current function (1 byte)
   OP_CLASS,          // Declare a class (2 bytes)
+  OP_METHOD,         // Define a method in a class (2 bytes)
 } OpCode;
 
 // Struct to hold data stored along with the instructions.

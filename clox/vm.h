@@ -24,10 +24,11 @@ typedef struct {
   CallFrame frames[FRAMES_MAX];  // Stack of function calls
   int frameCount;
 
-  Value stack[STACK_MAX];    // Value stack implemented in C-array
-  Value* stackTop;           // Pointer to the top of the stack, past the last appended element.
-  Table globals;             // Store all global variables.
-  Table strings;             // Store all the "intern" strings.
+  Value stack[STACK_MAX];  // Value stack implemented in C-array
+  Value* stackTop;         // Pointer to the top of the stack, past the last appended element.
+  Table globals;           // Store all global variables.
+  Table strings;           // Store all the "intern" strings.
+  ObjString* initString;
   ObjUpvalue* openUpvalues;  // Store all closure variables
 
   size_t bytesAllocated;
