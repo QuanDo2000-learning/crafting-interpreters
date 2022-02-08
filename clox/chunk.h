@@ -23,6 +23,7 @@ typedef enum {
   OP_SET_UPVALUE,    // Set upvalue (2 bytes)
   OP_GET_PROPERTY,   // Get class property (2 bytes)
   OP_SET_PROPERTY,   // Set class property (2 bytes)
+  OP_GET_SUPER,      // Get the superclass (2 bytes)
   OP_EQUAL,          // Top 2 == Top 1 on stack (1 byte)
   OP_GREATER,        // Top 2 > Top 1 on stack (1 byte)
   OP_LESS,           // Top 2 < Top 1 on stack (1 byte)
@@ -38,10 +39,12 @@ typedef enum {
   OP_LOOP,           // Loop instruction (3 bytes)
   OP_CALL,           // Function call instruction (2 bytes)
   OP_INVOKE,         // Invoke a class method (3 bytes)
+  OP_SUPER_INVOKE,   // Invoke a superclass method (3 bytes)
   OP_CLOSURE,        // Create a function closure (? bytes)
   OP_CLOSE_UPVALUE,  // Mark variable as closed for closure (1 byte)
   OP_RETURN,         // Return from current function (1 byte)
   OP_CLASS,          // Declare a class (2 bytes)
+  OP_INHERIT,        // Class inheritance (1 byte)
   OP_METHOD,         // Define a method in a class (2 bytes)
 } OpCode;
 
